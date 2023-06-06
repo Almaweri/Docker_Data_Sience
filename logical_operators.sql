@@ -296,3 +296,11 @@ SELECT sql_python.orders.*,
    JOIN sql_python.accounts   
    ON orders.account_id = accounts.id
 
+## // Enhanced Query
+
+SELECT o.*, o.id, o.account_id, o.occurred_at, o.standard_qty, o.gloss_qty,
+       o.poster_qty, o.total, o.standard_amt_usd, o.gloss_amt_usd,
+       o.poster_amt_usd, o.total_amt_usd
+FROM sql_python.orders AS o
+JOIN sql_python.accounts AS a
+    ON o.account_id = a.id;
