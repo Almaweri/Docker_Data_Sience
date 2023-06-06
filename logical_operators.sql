@@ -238,3 +238,61 @@ WHERE standard_qty > '1000' AND poster_qty = '0'AND gloss_qty = '0'
 
 
 
+// ====================  OR ============================
+USE sql_python;
+Select account_id,
+        occurred_at,
+        standard_qty,
+        gloss_qty,
+        poster_qty
+   From orders
+   WHERE standard_qty = 0 OR gloss_amt_usd = 0 OR poster_qty = 0
+   
+
+// use parentheses to assure that logic we want to perform is being executed correctly
+USE sql_python;
+Select account_id,
+        occurred_at,
+        standard_qty,
+        gloss_qty,
+        poster_qty
+   From orders
+   WHERE (standard_qty = 0 OR gloss_amt_usd = 0 OR poster_qty = 0) // without the parentheses all results will be wrong
+   AND occurred_at >= '2016-10-01'
+
+//Questions using the OR operator
+
+// 1- Find list of orders ids where either gloss_qty or poster_qty is greater than 4000. Only include the id field in the resulting table.
+USE sql_python;
+SELECT id
+FROM orders 
+WHERE gloss_qty > 4000 OR poster_qty > 4000
+
+// 2-Write a query that returns a list of orders where the standard_qty is zero and either the gloss_qty or poster_qty is over 1000.
+SELECT *
+FROM sql_python.orders
+WHERE (gloss_qty > 1000 OR poster_qty > 1000)
+AND standard_qty = 0
+
+// 3- Find all the company names that start with a 'C' or 'W',
+// and the primary contact contains 'ana' or 'Ana',
+// but it doesn't contain 'eana'.
+
+SELECT * from sql_python.accounts
+WHERE (name LIKE 'C%' OR name LIKE 'C%')
+AND (primary_poc LIKE '%ana%' or primary_poc LIKE '%Ana%')
+AND (primary_poc NOT LIKE '%eana%')
+
+ // ==============================================================
+      ============================= JOIN  =================
+ // ==============================================================
+   
+// INNER JOIN
+================ THINK about JOIN AS FROM ===================
+
+SELECT sql_python.orders.*,
+       orders.id, orders.account_id, orders.occurred_at, orders.standard_qty, orders.gloss_qty, orders.poster_qty, orders.total, orders.standard_amt_usd, orders.gloss_amt_usd, orders.poster_amt_usd, orders.total_amt_usd
+   FROM sql_python.orders
+   JOIN sql_python.accounts   
+   ON orders.account_id = accounts.id
+
